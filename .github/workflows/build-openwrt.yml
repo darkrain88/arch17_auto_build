@@ -14,7 +14,7 @@ env:
   UPLOAD_BIN_DIR: false
   UPLOAD_FIRMWARE: true
   UPLOAD_RELEASE: true
-  FIRMWARE_TAG: IPQ60XX-ALL  
+  FIRMWARE_TAG: IPQ40XX-acrh17
   TZ: Asia/Shanghai
 
 jobs:
