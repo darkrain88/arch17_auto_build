@@ -91,6 +91,23 @@ jobs:
         find dl -size -1024c -exec ls -l {} \;
         find dl -size -1024c -exec rm -f {} \;
 
+    - name: Cache Dependencies
+      uses: actions/cache@v4
+      with:
+          path: |
+            ./action_build/.ccache
+            ./action_build/staging_dir
+          key: ${{ inputs.runs-on }}-${{ hashFiles('**/repo_flag') }}-${{ env.BUILD_DATE }}
+          restore-keys: |
+            ${{ inputs.runs-on }}-${{ hashFiles('**/repo_flag') }}-
+
+    - name: Refresh the cache
+      run: |
+          if [ -d "./action_build/staging_dir" ]; then
+            find "./action_build/staging_dir" -type d -name "stamp" -not -path "*target*" | while read -r dir; do
+                find "$dir" -type f -exec touch {} +
+            done
+          fi
     - name: Compile Firmware(开始编译固件)
       id: compile
       run: |
